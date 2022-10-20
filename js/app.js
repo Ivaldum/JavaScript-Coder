@@ -1,58 +1,9 @@
-class Dato{
-    constructor(descripcion, valor){
-        this._descripcion = descripcion;
-        this._valor = valor;
-    }
-
-    get descripcion(){
-        return this._descripcion;
-    }
-
-    set descripcion (descripcion){
-        this._descripcion = descripcion;
-    }
-
-    get valor(){
-        return this._valor
-    }
-
-    set valor (valor){
-        this._valor = valor;
-    }
-}
-
-class Egreso extends Dato{
-    static contadorEgresos = 0;
-
-    constructor(descripcion, valor){
-        super(descripcion,valor);
-        this._idEgresos = ++Egreso.contadorEgresos;
-    }
-
-    get idEgresos(){
-        return this._idEgresos;
-    }
-}
-
-class Ingreso extends Dato{
-    static contadorIngresos = 0;
-
-    constructor(descripcion, valor){
-        super(descripcion,valor);
-        this._idIngresos = ++Ingreso.contadorIngresos;
-    }
-
-    get idIngresos(){
-        return this._idIngresos;
-    }
-}
-
 const ingresos = [
-    new Ingreso("Sueldo", 80000),
+    new Ingreso("Sueldo", 2000),
 ];
 
 const egresos = [
-    new Egreso("Alquiler", 25000),
+    new Egreso("Alquiler", 400),
 ];
 
 let cargarApp = () => {
