@@ -1,12 +1,27 @@
 const ingresos = [
-    new Ingreso("Sueldo", 2000),
+
 ];
 
 const egresos = [
-    new Egreso("Alquiler", 400),
+    
 ];
 
+
 let cargarApp = () => {
+    ingresoStorage = localStorage.getItem("ingresos")
+    if (ingresoStorage){
+        const ingresosJson = JSON.parse(ingresoStorage);
+        ingresosJson.forEach(ingreso => {
+            ingresos.push(new Ingreso(ingreso._descripcion, ingreso._valor));
+        });
+    }
+    egresoStorage = localStorage.getItem("egresos")
+    if (egresoStorage){
+        const egresosJson = JSON.parse(egresoStorage);
+        egresosJson.forEach(egreso => {
+            egresos.push(new Egreso(egreso._descripcion, egreso._valor));
+        });
+    }
     cargarCabecero();
     cargarIngresos();
     cargarEgresos();
@@ -30,7 +45,6 @@ let calcularEgresos = () => {
 
 let cargarCabecero = () => {
     let presupuestoTotal = calcularIngresos() - calcularEgresos();
-    let porcentajeEgreso = calcularEgresos() / calcularIngresos();
     document.getElementById("presupuesto").innerHTML = formatoMoneda(presupuestoTotal);
     document.getElementById("ingresos").innerHTML = formatoMoneda(calcularIngresos());
     document.getElementById("egresos").innerHTML = formatoMoneda(calcularEgresos());
@@ -74,6 +88,7 @@ const crearIngresoHTML = (ingreso) => {
 const eliminarIngreso = (id)=>{
     let indiceEliminar =  ingresos.findIndex( ingreso => ingreso.id === id);
     ingresos.splice(indiceEliminar, 1);
+    localStorage.setItem("ingresos", JSON.stringify(ingresos));
     cargarCabecero();
     cargarIngresos();
 }
@@ -107,6 +122,7 @@ const crearEgresoHTML = (egreso)=> {
 const eliminarEgreso = (id)=>{
     let indiceEliminar = egresos.findIndex(egreso => egreso.id === id);
     egresos.splice(indiceEliminar, 1);
+    localStorage.setItem("egresos", JSON.stringify(egresos));
     cargarCabecero();
     cargarEgresos();
 }
@@ -118,11 +134,13 @@ const agregarDato = ()=>{
     if(descripcion.value !== "" && valor.value !== ""){
         if(tipo.value === "ingreso"){
             ingresos.push(new Ingreso(descripcion.value, +valor.value));
+            localStorage.setItem("ingresos", JSON.stringify(ingresos));
             cargarCabecero();
             cargarIngresos();
         }
         else if(tipo.value === "egreso"){
             egresos.push(new Egreso(descripcion.value, +valor.value))
+            localStorage.setItem("egresos", JSON.stringify(egresos));
             cargarCabecero();
             cargarEgresos();
         }

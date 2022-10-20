@@ -12,7 +12,7 @@
 
 body {
     color: #555;
-    font-family: Open Sans;
+    font-family: sans-serif;
     font-size: 16px;
     position: relative;
     height: 100vh;
@@ -45,7 +45,7 @@ body {
 }
 
 .presupuesto_titulo{
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
     margin-bottom: 10px;
     font-weight: 300;
