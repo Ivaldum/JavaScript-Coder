@@ -7,7 +7,7 @@ const egresos = [
 ];
 
 
-let cargarApp = () => {
+let cargarApp = async () => {
     ingresoStorage = localStorage.getItem("ingresos")
     if (ingresoStorage){
         const ingresosJson = JSON.parse(ingresoStorage);
@@ -21,6 +21,18 @@ let cargarApp = () => {
         egresosJson.forEach(egreso => {
             egresos.push(new Egreso(egreso._descripcion, egreso._valor));
         });
+    }
+    if(!(ingresoStorage || egresoStorage)){
+        const res = await fetch("/api/default.json")
+            .then(res => res.json());
+        res.ingresos.forEach(ingreso =>{
+            ingresos.push(new Ingreso(ingreso.descripcion, ingreso.valor))
+        })
+        res.egresos.forEach(egreso =>{
+            egresos.push(new Egreso(egreso.descripcion, egreso.valor))
+        })
+        localStorage.setItem("ingresos", JSON.stringify(ingresos));
+        localStorage.setItem("egresos", JSON.stringify(egresos));
     }
     cargarCabecero();
     cargarIngresos();

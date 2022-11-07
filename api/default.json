@@ -1,0 +1,23 @@
+{
+    "succes": "true",
+    "ingresos": [
+        {
+            "descripcion": "sueldo",
+            "valor": 20000
+        },
+        {
+            "descripcion": "beca",
+            "valor": 1000
+        }
+    ],
+    "egresos": [
+        {
+            "descripcion": "alquiler",
+            "valor": 5000
+        },
+        {
+            "descripcion": "nefli",
+            "valor": 1400
+        }
+    ]
+}
