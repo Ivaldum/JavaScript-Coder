@@ -23,7 +23,7 @@ let cargarApp = async () => {
         });
     }
     if(!(ingresoStorage || egresoStorage)){
-        const res = await fetch("/api/default.json")
+        const res = await fetch("api/default.json")
             .then(res => res.json());
         res.ingresos.forEach(ingreso =>{
             ingresos.push(new Ingreso(ingreso.descripcion, ingreso.valor))
