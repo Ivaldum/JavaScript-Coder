@@ -23,6 +23,9 @@ let loadApp = async () => {
         });
     }
     if(!(ingresoStorage || egresoStorage)){
+        Swal.fire({
+            text: "Bienvenido a la App de presupuesto"
+        });
         const res = await fetch("api/default.json")
             .then(res => res.json());
         res.ingresos.forEach(ingreso =>{
