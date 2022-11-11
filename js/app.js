@@ -7,7 +7,7 @@ const egresos = [
 ];
 
 
-let cargarApp = async () => {
+let loadApp = async () => {
     ingresoStorage = localStorage.getItem("ingresos")
     if (ingresoStorage){
         const ingresosJson = JSON.parse(ingresoStorage);
@@ -34,10 +34,18 @@ let cargarApp = async () => {
         localStorage.setItem("ingresos", JSON.stringify(ingresos));
         localStorage.setItem("egresos", JSON.stringify(egresos));
     }
-    cargarCabecero();
-    cargarIngresos();
-    cargarEgresos();
+    loadHeader();
+    loadIngresos();
+    loadEgresos();
 }
+
+let loadHeader = () => {
+    let presupuestoTotal = calcularIngresos() - calcularEgresos();
+    document.getElementById("presupuesto").innerHTML = formatoMoneda(presupuestoTotal);
+    document.getElementById("ingresos").innerHTML = formatoMoneda(calcularIngresos());
+    document.getElementById("egresos").innerHTML = formatoMoneda(calcularEgresos());
+}
+
 
 let calcularIngresos = () => {
     let totalIngreso = 0;
@@ -55,13 +63,6 @@ let calcularEgresos = () => {
     return totalEgreso;
 }
 
-let cargarCabecero = () => {
-    let presupuestoTotal = calcularIngresos() - calcularEgresos();
-    document.getElementById("presupuesto").innerHTML = formatoMoneda(presupuestoTotal);
-    document.getElementById("ingresos").innerHTML = formatoMoneda(calcularIngresos());
-    document.getElementById("egresos").innerHTML = formatoMoneda(calcularEgresos());
-}
-
 const formatoMoneda = (valor) => {
     return valor.toLocaleString("en-US", {
         style: "currency",
@@ -70,16 +71,23 @@ const formatoMoneda = (valor) => {
     })
 }
 
-
-const cargarIngresos = () => {
+const loadIngresos = () => {
     let ingresosHTML = "";
     for (let ingreso of ingresos) {
-        ingresosHTML += crearIngresoHTML(ingreso);
+        ingresosHTML += createIngreso(ingreso);
     }
     document.getElementById("lista-ingresos").innerHTML = ingresosHTML;
 }
 
-const crearIngresoHTML = (ingreso) => {
+const loadEgresos = () => {
+    let egresosHTML = "";
+    for (let egreso of egresos) {
+        egresosHTML += createEgreso(egreso);
+    }
+    document.getElementById("lista-egresos").innerHTML = egresosHTML;
+}
+
+const createIngreso = (ingreso) => {
     let ingresoHTML = `
     <div class="elemento limpiarEstilos">
         <div class="elemento_descripcion">${ingreso.descripcion}</div>
@@ -88,7 +96,7 @@ const crearIngresoHTML = (ingreso) => {
             <div class="elemento_eliminar">
                 <button class="elemento_eliminar--btn">
                     <ion-icon name="close-circle-outline"
-                    onclick="eliminarIngreso(${ingreso.id})" ></ion-icon>
+                    onclick="deleteIngreso(${ingreso.id})" ></ion-icon>
                 </button>
             </div>
         </div>
@@ -97,23 +105,7 @@ const crearIngresoHTML = (ingreso) => {
     return ingresoHTML;
 }
 
-const eliminarIngreso = (id)=>{
-    let indiceEliminar =  ingresos.findIndex( ingreso => ingreso.id === id);
-    ingresos.splice(indiceEliminar, 1);
-    localStorage.setItem("ingresos", JSON.stringify(ingresos));
-    cargarCabecero();
-    cargarIngresos();
-}
-
-const cargarEgresos = () => {
-    let egresosHTML = "";
-    for (let egreso of egresos) {
-        egresosHTML += crearEgresoHTML(egreso);
-    }
-    document.getElementById("lista-egresos").innerHTML = egresosHTML;
-}
-
-const crearEgresoHTML = (egreso)=> {
+const createEgreso = (egreso)=> {
     let egresoHTML = `
     <div class="elemento limpiarEstilos">
         <div class="elemento_descripcion">${egreso.descripcion}</div>
@@ -122,7 +114,7 @@ const crearEgresoHTML = (egreso)=> {
             <div class="elemento_eliminar">
                 <button class="elemento_eliminar--btn">
                     <ion-icon name="close-circle-outline"
-                    onclick="eliminarEgreso(${egreso.id})"></ion-icon>
+                    onclick="deleteEgreso(${egreso.id})"></ion-icon>
                 </button>
             </div>
         </div>
@@ -131,15 +123,23 @@ const crearEgresoHTML = (egreso)=> {
     return egresoHTML;
 }
 
-const eliminarEgreso = (id)=>{
+const deleteIngreso = (id)=>{
+    let indiceEliminar =  ingresos.findIndex( ingreso => ingreso.id === id);
+    ingresos.splice(indiceEliminar, 1);
+    localStorage.setItem("ingresos", JSON.stringify(ingresos));
+    loadHeader();
+    loadIngresos();
+}
+
+const deleteEgreso = (id)=>{
     let indiceEliminar = egresos.findIndex(egreso => egreso.id === id);
     egresos.splice(indiceEliminar, 1);
     localStorage.setItem("egresos", JSON.stringify(egresos));
-    cargarCabecero();
-    cargarEgresos();
+    loadHeader();
+    loadEgresos();
 }
 
-const agregarDato = ()=>{
+const addDato = ()=>{
     let form = document.forms["form"];
     let tipo = form["tipo"];
     let descripcion = form["descripcion"];
@@ -147,14 +147,14 @@ const agregarDato = ()=>{
         if(tipo.value === "ingreso"){
             ingresos.push(new Ingreso(descripcion.value, +valor.value));
             localStorage.setItem("ingresos", JSON.stringify(ingresos));
-            cargarCabecero();
-            cargarIngresos();
+            loadHeader();
+            loadIngresos();
         }
         else if(tipo.value === "egreso"){
             egresos.push(new Egreso(descripcion.value, +valor.value))
             localStorage.setItem("egresos", JSON.stringify(egresos));
-            cargarCabecero();
-            cargarEgresos();
+            loadHeader();
+            loadEgresos();
         }
     }
 }

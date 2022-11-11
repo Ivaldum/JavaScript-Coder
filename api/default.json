@@ -2,22 +2,26 @@
     "succes": "true",
     "ingresos": [
         {
-            "descripcion": "sueldo",
-            "valor": 20000
-        },
-        {
-            "descripcion": "beca",
-            "valor": 1000
+            "descripcion": "Sueldo",
+            "valor": 10000
         }
     ],
     "egresos": [
         {
-            "descripcion": "alquiler",
-            "valor": 5000
+            "descripcion": "Alquiler",
+            "valor": 3000
         },
         {
-            "descripcion": "nefli",
-            "valor": 1400
+            "descripcion": "Internet",
+            "valor": 95
+        },
+        {
+            "descripcion": "Netflix",
+            "valor": 20
+        },
+        {
+            "descripcion": "Seguro Auto",
+            "valor": 320
         }
     ]
 }

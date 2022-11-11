@@ -7,7 +7,7 @@
     <title>App Presupuesto</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="cargarApp()">
+<body onload="loadApp()">
     <div class="cabecero">
         <div class="presupuesto">
             <div class="presupuesto_titulo">
@@ -38,7 +38,7 @@
                 </select>
                 <input type="text" class="agregar_descripcion" placeholder="Agregar descripcion" id="descripcion"/>
                 <input type="number" class="agregar_valor" id="valor" placeholder="Valor" step="any"/>
-                <button class="agregar_btn" onclick="agregarDato()">
+                <button class="agregar_btn" onclick="addDato()">
                     <ion-icon name="checkmark-circle-outline"></ion-icon>
                 </button>
             </div>
