@@ -20,4 +20,12 @@ class Dato{
     set valor (valor){
         this._valor = valor;
     }
+
+    get id(){
+        return this._id
+    }
+
+    set id (valor){
+        this._valor = id;
+    }
 }
