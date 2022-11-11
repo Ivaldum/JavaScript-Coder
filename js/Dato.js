@@ -2,6 +2,7 @@ class Dato{
     constructor(descripcion, valor){
         this._descripcion = descripcion;
         this._valor = valor;
+        this._id = `${Date.now()}-${Math.random()}`;
     }
 
     get descripcion(){
